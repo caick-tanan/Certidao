@@ -33,6 +33,7 @@ namespace Certidao.API
                 context => context.UseSqlite(Configuration.GetConnectionString("Default"))
             );
             services.AddControllers();
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Certidao.API", Version = "v1" });
@@ -55,6 +56,10 @@ namespace Certidao.API
 
             app.UseAuthorization();
 
+            app.UseCors(cors => cors.AllowAnyHeader() //qualquer conifg. do meu Header de requisição do HTTP
+                                    .AllowAnyMethod() // vindo de qualquer método
+                                    .AllowAnyOrigin()); //vindo de qualquer origem será permitida
+ 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
